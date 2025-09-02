@@ -1,7 +1,7 @@
 <script setup>
 import { defineEmits, defineModel, defineProps} from 'vue';
 
-const model = defineModel('showDeleteDialog', {type: Boolean, required: true, default: false})
+const model = defineModel('showDeleteDialog', { type: Boolean, required: true, default: false })
 
 defineEmits(['delete', 'cancel'])
 

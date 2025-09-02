@@ -16,13 +16,38 @@ import {
   QBadge,
 } from 'quasar';
 
-// Mock data for dashboard metrics
-const metrics = ref({
-  totalRegisteredVoters: 7854321,
-  upcomingElections: 4,
-  activeCandidates: 187,
-  latestTurnoutRate: 68.5,
-});
+
+const metrix = ref([
+  {
+    id: 1,
+    title: 'Registere voters',
+    number: 7854321,
+    icon: 'group_add',
+    styleClass: 'bg-blue-1 text-blue-9'
+  },
+  {
+    id: 2,
+    title: 'Upcoming Elections',
+    number: 4,
+    icon: 'event_available',
+    styleClass: 'bg-indigo-1 text-indigo-9'
+  },
+  {
+    id: 3,
+    title: 'Active Candidates',
+    number: 187,
+    icon: 'person_search',
+    styleClass: 'bg-orange-1 text-orange-9'
+  },
+  {
+    id: 4,
+    title: 'Latest Turnout Rate',
+    number: 68.5,
+    icon: 'pie_chart',
+    styleClass: 'bg-teal-1 text-teal-9'
+  },
+
+])
 
 // Mock data for election statuses
 const electionStatuses = ref([
@@ -151,7 +176,9 @@ const getActivityColor = (type) => {
     default:
       return 'primary';
   }
+
 };
+
 </script>
 
 <template>
@@ -161,47 +188,13 @@ const getActivityColor = (type) => {
       <div class="text-h5 text-primary q-mb-lg">Key System Metrics</div>
       <!-- Removed 'dashboard-metrics-grid' class from this div as it will now rely solely on Quasar's Flexbox grid -->
       <div class="row q-col-gutter-lg">
-        <!-- Metric 1: Total Registered Voters -->
-        <div class="col-xs-12 col-sm-6 col-md-3">
-          <q-card class="metric-card bg-blue-1 text-blue-9">
-            <q-card-section class="text-center">
-              <q-icon name="group_add" size="40px" class="q-mb-sm" />
-              <div class="text-h6 text-weight-bold">{{ metrics.totalRegisteredVoters.toLocaleString() }}</div>
-              <div class="text-subtitle2 text-grey-8">Registered Voters</div>
-            </q-card-section>
-          </q-card>
-        </div>
 
-        <!-- Metric 3: Upcoming Elections -->
-        <div class="col-xs-12 col-sm-6 col-md-3">
-          <q-card class="metric-card bg-indigo-1 text-indigo-9">
+         <div class="col-xs-12 col-sm-6 col-md-3" v-for="metric in metrix" :key="metric.id">
+          <q-card :class="['metric-card', metric.styleClass]">
             <q-card-section class="text-center">
-              <q-icon name="event_available" size="40px" class="q-mb-sm" />
-              <div class="text-h6 text-weight-bold">{{ metrics.upcomingElections }}</div>
-              <div class="text-subtitle2 text-grey-8">Upcoming Elections</div>
-            </q-card-section>
-          </q-card>
-        </div>
-
-        <!-- Metric 4: Active Candidates -->
-        <div class="col-xs-12 col-sm-6 col-md-3">
-          <q-card class="metric-card bg-orange-1 text-orange-9">
-            <q-card-section class="text-center">
-              <q-icon name="person_search" size="40px" class="q-mb-sm" />
-              <div class="text-h6 text-weight-bold">{{ metrics.activeCandidates }}</div>
-              <div class="text-subtitle2 text-grey-8">Active Candidates</div>
-            </q-card-section>
-          </q-card>
-        </div>
-
-
-        <!-- Metric 7: Latest Turnout Rate -->
-        <div class="col-xs-12 col-sm-6 col-md-3">
-          <q-card class="metric-card bg-teal-1 text-teal-9">
-            <q-card-section class="text-center">
-              <q-icon name="pie_chart" size="40px" class="q-mb-sm" />
-              <div class="text-h6 text-weight-bold">{{ metrics.latestTurnoutRate }}%</div>
-              <div class="text-subtitle2 text-grey-8">Latest Turnout Rate</div>
+              <q-icon :name="metric.icon" size="40px" class="q-mb-sm" />
+              <div class="text-h6 text-weight-bold">{{ metric.number.toLocaleString() }}</div>
+              <div class="text-subtitle2 text-grey-8">{{ metric.title }}</div>
             </q-card-section>
           </q-card>
         </div>
