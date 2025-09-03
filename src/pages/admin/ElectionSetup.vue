@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import HeaderCard from 'src/components/cards/HeaderCard.vue';
 import { onMounted, ref, watchEffect} from 'vue'
 import { useRouter } from 'vue-router';
@@ -18,7 +18,7 @@ const electionTypes = [
 ]
 
 const regionOptions = [
-  'North West',
+  'North-West',
   'South',
   'East',
   'West',
@@ -27,7 +27,7 @@ const regionOptions = [
   'North',
   'South-West',
   'Adamawa',
-  'Far North'
+  'Far-North'
 ];
 
 const elections = ref([
@@ -149,7 +149,7 @@ const filteredElections = ref([])
 
 const showCandidatesDialog = ref(false);
 const showCandidatePerElectionDeleteDialog = ref(false);
-const isLoading = ref(false);
+const isLoading = ref(true);
 const showAddEditElectionDialog = ref(false)
 const isEditingScreen = ref(false)
 const showElectionConfirmDeleteDialog = ref(false)
@@ -180,7 +180,7 @@ const specifics = [
 
 
 
-const fetchElections = () => {
+const filterElection = () => {
 
   let tempElections = elections.value;
 
@@ -195,6 +195,17 @@ const fetchElections = () => {
 
   filteredElections.value = tempElections;
 
+}
+
+const fetchElections = () => {
+  isLoading.value = true;
+  return new Promise(resolve => {
+    setTimeout(() => {
+      isLoading.value = false;
+      filterElection()
+      resolve();
+    }, 1000)
+  })
 }
 // const showAddEditCandidateDialog = ref(false)
 
@@ -346,12 +357,10 @@ const createElectionSubmitHandler = () => {
 
 
 onMounted(() => {
-  filteredElections.value = elections.value;
-})
-
-watchEffect(() => {
   fetchElections();
 })
+
+watchEffect(() => filterElection())
 </script>
 
 <template>

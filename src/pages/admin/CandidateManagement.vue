@@ -93,6 +93,19 @@ const filterCandidates = () => {
   pagination.value.rowsNumber = filteredCandidates.value.length;
 };
 
+const fetchCandidates = () => {
+  isLoading.value = true;
+  return new Promise(resolve => {
+    setTimeout(() => {
+      candidates.value = mockCandidates.value.map(v => ({ ...v })); // Deep copy mock data
+      pagination.value.rowsNumber = candidates.value.length;
+      filterCandidates(); // Apply initial filter/search
+      isLoading.value = false;
+      resolve();
+    }, 500); // Simulate network delay
+  });
+};
+
 const openAddEditDialog = (candidate = null) => {
   if (candidate) {
     isEditing.value = true;
@@ -216,13 +229,12 @@ const handleImageError = (event) => {
 
 // --- Lifecycle Hooks and Watchers ---
 onMounted(() => {
-  candidates.value = mockCandidates.value.map(c => ({ ...c }));
-  isLoading.value = false;
+  fetchCandidates();
 });
 
 // Watch for changes in candidates or search query and re-filter
 watchEffect(() => {
-  filterCandidates();
+  fetchCandidates();
 });
 </script>
 
